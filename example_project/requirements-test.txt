@@ -1,2 +1,5 @@
+# These dependencies won't be installed when you install the project
+# package itself, but they're needed to run tests, linting and so on
+
 flake8
 pytest
