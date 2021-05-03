@@ -1,26 +1,44 @@
+# the things that don't have output files or run every time
+.PHONY: help all install test dev coverage clean \
+		pre-commit update-pre-commit
 
-.PHONY: all clean test dev \
-	test-example_project
 
-all: venv/bin/activate test
+all: dev coverage ## builds everything
 
-test: venv/bin/activate test-example_project
+install: .venv/.installed ## installs the venv and the project packages
 
-test-example_project: venv/bin/activate venv/.test-dependencies
-	build-scripts/test.sh
+dev: .venv/.installed-dev pre-commit ## prepare local repo and venv for dev
 
-clean:
-	./build-scripts/clean.sh
+test: .venv/.installed-dev  ## run the project's tests
+	build/test.sh
 
-linter: ./venv/bin/activate
-	./build-scripts/linter.sh
+coverage: .venv/.installed-dev build/coverage.sh  ## build the html coverage report
+	build/coverage.sh
 
-venv/bin/activate: example_project/requirements.txt build-scripts/venv.sh
-	build-scripts/venv.sh
+clean:  ## delete caches and the venv
+	build/clean.sh
 
-venv/.test-dependencies: example_project/requirements-test.txt venv/bin/activate 
-	build-scripts/venv-test.sh
+pre-commit: .git/hooks/pre-commit ## install pre-commit into the git repo
 
-venv/bin/activate: example_project/requirements.txt example_project/requirements-test.txt
-	build-scripts/venv.sh
+update-pre-commit: build/update-pre-commit.sh ## autoupdate pre-commit
+	build/update-pre-commit.sh
 
+
+
+# Caching doesn't work if we depend on PHONY targets
+
+.venv/.installed: */pyproject.toml .venv/bin/activate build/install.sh
+	build/install.sh
+
+.venv/.installed-dev: */pyproject.toml .venv/bin/activate build/install-dev.sh
+	build/install-dev.sh
+
+.venv/bin/activate:
+	build/venv.sh
+
+.git/hooks/pre-commit: build/install-pre-commit.sh
+	build/install-pre-commit.sh
+
+
+help: ## Show this help
+	@egrep -h '\s##\s' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
