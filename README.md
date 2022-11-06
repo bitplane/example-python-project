@@ -24,7 +24,7 @@ The trick is:
 
 1. Have each step run one script that has a good name, so they're documented
    by that script and its name, and can be run without `make` - like from
-   your editor or whatever. I keep mine in `./build-scripts/`.
+   your editor or whatever. I keep mine in `./build/`.
 2. Have the dependencies for the step be the script itself plus one file
    that it creates and anything that it depends on. So when you switch branch
    and the script or its inputs have changed, it'll blow the cache and re-run
