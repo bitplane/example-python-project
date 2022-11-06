@@ -4,7 +4,7 @@
 source .venv/bin/activate
 
 # install our app
-python3 -m pip install ./example_project
+python3 -m pip install ./example_package
 
 # let make know that we are installed in user mode
 touch .venv/.installed

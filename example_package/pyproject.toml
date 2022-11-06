@@ -1,5 +1,5 @@
 [project]
-name = "example_project"
+name = "example_package"
 description = "example package"
 version = "0.1.0"
 authors = [

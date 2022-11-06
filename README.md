@@ -24,14 +24,16 @@ The trick is:
 
 1. Have each step run one script that has a good name, so they're documented
    by that script and its name, and can be run without `make` - like from
-   your editor or whatever. I keep mine in `./build/`.
+   your editor or whatever. I keep mine in `./build/`. The reason for having
+   them as separate scripts is because you might want to bypass dependencies
+   in a CI pipeline.
 2. Have the dependencies for the step be the script itself plus one file
    that it creates and anything that it depends on. So when you switch branch
    and the script or its inputs have changed, it'll blow the cache and re-run
-   that step and all the ones after it.
+   that step after all the ones that depend on it.
 3. If you don't know what the output file will be then just fake one. Like
-   when installing `requirements-test.txt` I `touch ./venv/.test-dependencies`
-   so it knows that step has been done and won't run it again.
+   when installing the packages I `touch ./venv/.installed` so it knows that
+   step has been done and won't run it again.
 4. Remember to remove those files in `clean.sh`. Remove everything in there.
 5. Try to avoid use Make's advanced features. In a world where you can do
    anything, what you *don't* do is what defines you.
@@ -53,19 +55,23 @@ formatters, linters and a few other checks. Have a look at
 
 I'm using VS Code because it works everywhere and supports all the things that
 I need. I commit my config to source control so anyone can open the project dir
-and start hacking with a working debugger and the tests auto-detected.
+and start hacking with a working debugger and the tests auto-detected. This is
+a nice new paradigm where the IDE settings don't belong to the user, they
+belong to the project, so it's appropriate to put them in source control.
 
-The config also provides recommendations for extensions.
+The config also provides recommendations for extensions, which you'll be
+prompted to install when you open the project for the first time.
 
 ### Package layout
 
-Under the `example_project` dir there's a `pyproject.toml` that defines the
-project and its dependencies. Then there's `src` and `test` dirs that contain
+Under the `example_package` dir there's a `pyproject.toml` that defines the
+package and its dependencies. Then there's `src` and `test` dirs that contain
 the code and tests.
 
 The layout is as-per the pypi packaging guidelines. When referencing stuff in
 the code I tend to use the full `package.module` names because otherwise imports
-tend to break in weird ways in different environments.
+tend to break in weird ways in different environments, and it means I can
+reference stuff in parent directories without ripping my hair out.
 
 ### Testing
 
@@ -76,7 +82,8 @@ fundamentally just other pieces of code, so if a function is difficult to test
 then it's probably difficult to reuse too.
 
 Run `make coverage` for a test coverage report. I like to keep my coverage at
-100%.
+100%. Not sure if that's a taste thing or a side-effect of the way I'm
+developing, but I like it.
 
 ## Some opinionated stuff
 

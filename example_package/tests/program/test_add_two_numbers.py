@@ -1,6 +1,6 @@
 from pytest import raises
 
-from example_project.program import add_two_numbers
+from example_package.program import add_two_numbers
 
 
 def test_add_two_numbers():
