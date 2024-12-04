@@ -1,3 +1,5 @@
+# WTFPL + Warranty
+
 Licensed under the WTFPL with one additional clause:
 
 1. Don't blame me.

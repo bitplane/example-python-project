@@ -2,5 +2,4 @@
 
 source .venv/bin/activate
 
-coverage run -m pytest ./*/tests
-coverage html
+pytest --cov="src/$1" --cov-report=html .

@@ -24,7 +24,7 @@ The trick is:
 
 1. Have each step run one script that has a good name, so they're documented
    by that script and its name, and can be run without `make` - like from
-   your editor or whatever. I keep mine in `./build/`. The reason for having
+   your editor or whatever. I keep mine in `./scripts/`. The reason for having
    them as separate scripts is because you might want to bypass dependencies
    in a CI pipeline.
 2. Have the dependencies for the step be the script itself plus one file
@@ -47,9 +47,15 @@ I like `flake8` for linting because it's not as harsh as `pylint`, and is
 supported by my IDE of choice.
 
 Part of the `make dev` setup installs `pre-commit`, which will make sure that
-commits are up to a certain standard. The provided config file runs code
+commits are up to a certain standard. The provided config file runs the code
 formatters, linters and a few other checks. Have a look at
-`.pre-commit-config.yaml` to see what's going on in there.
+`.pre-commit-config.yaml` to see what's going on in there. pre-commit is very
+slow and very annoying, but it forces code quality on us which makes up for the
+inconvenience.
+
+See the `.flake8` config for some ignored rules where flake8 and black get into
+a fight, and there's `isort` and `black` conflict rules in the pre-commit
+config too.
 
 ### IDE
 
@@ -62,6 +68,9 @@ belong to the project, so it's appropriate to put them in source control.
 The config also provides recommendations for extensions, which you'll be
 prompted to install when you open the project for the first time.
 
+I could (and sometimes do) go one step further and use devcontainers, but at
+time of writing it's still a bit fiddly to get set up.
+
 ### Package layout
 
 Under the `example_package` dir there's a `pyproject.toml` that defines the
@@ -71,19 +80,43 @@ the code and tests.
 The layout is as-per the pypi packaging guidelines. When referencing stuff in
 the code I tend to use the full `package.module` names because otherwise imports
 tend to break in weird ways in different environments, and it means I can
-reference stuff in parent directories without ripping my hair out.
+reference stuff in parent directories without ripping my hair out. It makes the
+imports look a bit Java-y but it's staying that way until implicit imports are
+removed from Python.
 
 ### Testing
 
-I use `pytest` and write tests in a functional style, and develop using TDD.
-If you get into the habit of actually running a new piece of code from a new
-unit test then you'll find yourself writing testable code. Tests are
+I use `pytest` and write tests in a functional style, and develop largely using
+TDD. If you get into the habit of actually running a new piece of code from a
+new unit test then you'll find yourself writing testable code. Tests are
 fundamentally just other pieces of code, so if a function is difficult to test
-then it's probably difficult to reuse too.
+then it's probably difficult to reuse too. But it doesn't work all the time;
+testing filesystem interactions and external services have a heavy
+test-development overhead, which hinders rather than helps refactoring efforts;
+your mileage may vary.
 
-Run `make coverage` for a test coverage report. I like to keep my coverage at
-100%. Not sure if that's a taste thing or a side-effect of the way I'm
-developing, but I like it.
+Run `make coverage` for a test coverage report.
+
+### CI and CD
+
+There's a couple of workflows in the `.github` dir, one to run the unit tests
+and one to release the project to pypi. The first
+
+The release process runs whenever you
+push tag changes to GitHub.
+
+Before the release process will work you
+need to get a key from pypi and add
+
+there's a couple of workflows, one that runs the
+`make test` any time a commit is pushed. This
+
+### Documentation
+
+You'll see a `mkdocs` config in the root. This is combined with the `make docs`
+script to make the github pages documentation for the project. If you look at
+this README.md file you'll see it's actually a symlink to the one in the package
+dir, and it's also symlinked from
 
 ## Some opinionated stuff
 
