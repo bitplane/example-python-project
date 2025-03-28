@@ -2,4 +2,4 @@
 
 source .venv/bin/activate
 
-python -m build "$1"
+python -m build "src"
