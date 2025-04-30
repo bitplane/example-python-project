@@ -43,8 +43,7 @@ do.
 
 ### Linting and commit checks
 
-I like `flake8` for linting because it's not as harsh as `pylint`, and is
-supported by my IDE of choice.
+I'm using `ruff` now for formatting and linting.
 
 Part of the `make dev` setup installs `pre-commit`, which will make sure that
 commits are up to a certain standard. The provided config file runs the code
@@ -53,17 +52,14 @@ formatters, linters and a few other checks. Have a look at
 slow and very annoying, but it forces code quality on us which makes up for the
 inconvenience.
 
-See the `.flake8` config for some ignored rules where flake8 and black get into
-a fight, and there's `isort` and `black` conflict rules in the pre-commit
-config too.
-
 ### IDE
 
-I'm using VS Code because it works everywhere and supports all the things that
-I need. I commit my config to source control so anyone can open the project dir
-and start hacking with a working debugger and the tests auto-detected. This is
-a nice new paradigm where the IDE settings don't belong to the user, they
-belong to the project, so it's appropriate to put them in source control.
+I'm using VS Code when I use an IDE because it works everywhere and supports
+all the things that I need. I commit my config to source control so
+anyone can open the project dir and start hacking with a working debugger and
+tests auto-detected. This is a nice new paradigm where the IDE settings don't
+belong to the user, they belong to the project, so it's appropriate to put
+them in source control. If your
 
 The config also provides recommendations for extensions, which you'll be
 prompted to install when you open the project for the first time.
