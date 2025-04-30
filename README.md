@@ -1,22 +1,26 @@
 # Example Python Project
 
 This is how I like to lay my Python projects out. You don't have to do it
-this way, but this way works for me. If you think it's bad or out of date
-feel free to create an issue or even a pull request.
+this way, but this way works for me.
+
+You can use it as a template, if you're reading this on GitHub then push the
+"Use this template" button
 
 ## To run me
 
     make dev
 
-Then open the project dir in Visual Studio code, if you like to use an IDE.
+Then open the project dir in Visual Studio code, if you like to use an IDE. I
+only use it for debugging my tests, I use `vim` most of the time.
 
 ## Project structure
 
 ### Makefile
 
 I like to use a `Makefile` to install my dependencies, build env, run tests
-and create packages. I get tab completion and it doesn't matter what CI
-platform I use, I just run `make stuff` and let GNU Make deal with it.
+and create packages. I get tab completion in my IDE and it doesn't matter what
+CI platform I use, I just run `make stuff` and let GNU Make deal with it.
+
 `Makefile`s are of course an ancient curse, but if you don't use them you'll
 have to live in interesting times, which is a far worse curse.
 
@@ -43,35 +47,39 @@ do.
 
 ### Linting and commit checks
 
-I'm using `ruff` now for formatting and linting.
+I'm using `ruff` now for formatting and linting, dropping the `flake8`, `black`
+and `isort` mess that I used before.
 
 Part of the `make dev` setup installs `pre-commit`, which will make sure that
 commits are up to a certain standard. The provided config file runs the code
-formatters, linters and a few other checks. Have a look at
-`.pre-commit-config.yaml` to see what's going on in there. pre-commit is very
-slow and very annoying, but it forces code quality on us which makes up for the
-inconvenience.
+formatters, linters and a few other checks. Read `.pre-commit-config.yaml` and
+see what's going on in there. `pre-commit` is very slow and very annoying, but
+it forces code quality on us which mostly makes up for the inconvenience of it
+blocking your commits.
+
+You can use `git commit -n` to skip the pre-commit tests.
 
 ### IDE
 
-I'm using VS Code when I use an IDE because it works everywhere and supports
-all the things that I need. I commit my config to source control so
-anyone can open the project dir and start hacking with a working debugger and
-tests auto-detected. This is a nice new paradigm where the IDE settings don't
-belong to the user, they belong to the project, so it's appropriate to put
-them in source control. If your
+I'm using VS Code when I use an IDE. It works everywhere and supports all the
+things that I need. I commit my config to source control so anyone can open the
+project dir and start hacking with a working debugger and tests auto-detected.
+
+This modern paradigm where the IDE settings belong to the project rather than
+the user means it's appropriate to put them in source control. If your
+colleagues disagree, they're wrong.
 
 The config also provides recommendations for extensions, which you'll be
 prompted to install when you open the project for the first time.
 
 I could (and sometimes do) go one step further and use devcontainers, but at
-time of writing it's still a bit fiddly to get set up.
+time of writing it's still a bit fiddly to get set up. Plus I've not been stuck
+in Windows for a while. If you're in Windows, install WSL and get a proper
+console.
 
 ### Package layout
 
-Under the `example_package` dir there's a `pyproject.toml` that defines the
-package and its dependencies. Then there's `src` and `test` dirs that contain
-the code and tests.
+There's a `pyproject.toml` here at the root dependencies.
 
 The layout is as-per the pypi packaging guidelines. When referencing stuff in
 the code I tend to use the full `package.module` names because otherwise imports
@@ -96,23 +104,16 @@ Run `make coverage` for a test coverage report.
 ### CI and CD
 
 There's a couple of workflows in the `.github` dir, one to run the unit tests
-and one to release the project to pypi. The first
-
-The release process runs whenever you
-push tag changes to GitHub.
-
-Before the release process will work you
-need to get a key from pypi and add
-
-there's a couple of workflows, one that runs the
-`make test` any time a commit is pushed. This
+and one to release the project to pypi. The unit tests one runs on every push,
+the release one runs on
 
 ### Documentation
 
 You'll see a `mkdocs` config in the root. This is combined with the `make docs`
-script to make the github pages documentation for the project. If you look at
-this README.md file you'll see it's actually a symlink to the one in the package
-dir, and it's also symlinked from
+script to make the github pages documentation for the project.
+
+I don't use this anymore as I have my own docs script for my website - it
+pushes a new commit to my github pages website. If I remember to, I'll
 
 ## Some opinionated stuff
 
@@ -127,6 +128,9 @@ stubs, test data, functional and integration tests, infrastructure code,
 architecture diagrams and specs - everything you need to actually understand
 the project in one place.
 
+Unfortunately you can't `pip install` a path within a git repository, so
+everything is still at the root in this one.
+
 ## Docs in Markdown
 
 Did you know that you can add a `README.md` to any dir and it'll get rendered
@@ -138,3 +142,17 @@ general rule, up to a point anyway. The project wiki is somewhere else, it goes
 out of sync, it's difficult to see what the docs were on a specific release
 tag. Docs in the codebase can be edited alongside new features and have a much
 richer history.
+
+## License choice
+
+I'm using the WTFPL with a warranty clause as an experiment I've been running
+for years. I wouldn't recommend you do the same unless you understand the risks
+and think it's worth it.
+
+My thinking is that you're a human being, I'm a human being. I agree to share my
+code as long as you don't blame me, an agreement in plain English not legalese.
+If you sue me, you broke that agreement. Doesn't matter how you put it, in plain
+English you're blaming me and don't have rights to use it. Any judge ruling
+against me would be making a statement that their court does not serve the
+public. I don't think they'd do that, and if they were forced to by case law
+then it'd go all the way to the top. And I'd defend myself.
