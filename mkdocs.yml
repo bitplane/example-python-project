@@ -1,5 +1,5 @@
 site_name: example-python-project
-repo_url: https://github.com/bitplane/ienv/
+repo_url: https://github.com/bitplane/python/example-python-project
 theme:
   name: material
   palette:
