@@ -4,7 +4,13 @@ This is how I like to lay my Python projects out. You don't have to do it
 this way, but this way works for me.
 
 You can use it as a template, if you're reading this on GitHub then push the
-"Use this template" button
+"Use this template" button. You'll need to edit the project name in two
+places:
+
+1. In `pyproject.toml`, along with the other metadata about your project. It
+   goes `in_snake_case`, and matches the dir in the `src` dir.
+2. In `Makefile`, which is `in-kebab-case`. Why? Because convention says so,
+   which is a poor excuse, but it's better than not following conventions.
 
 ## To run me
 
