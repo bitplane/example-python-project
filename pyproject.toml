@@ -20,7 +20,10 @@ dev = [
     "pytest-cov",
     "build",
     "twine",
-    "ruff"
+    "ruff",
+    "mkdocs",
+    "mkdocs-material",
+    "pydocs-markdown"
 ]
 
 [build-system]
