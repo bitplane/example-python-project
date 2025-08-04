@@ -54,10 +54,11 @@ Part of the `make dev` setup installs `pre-commit`, which will make sure that
 commits are up to a certain standard. The provided config file runs the code
 formatters, linters and a few other checks. Read `.pre-commit-config.yaml` and
 see what's going on in there. `pre-commit` is very slow and very annoying, but
-it forces code quality on us which mostly makes up for the inconvenience of it
-blocking your commits.
+it forces code quality which mostly makes up for the inconvenience of blocking
+my commits.
 
-You can use `git commit -n` to skip the pre-commit tests.
+You can use `git commit -n` to skip the pre-commit tests. And then
+`pre-commit run --all-files` later, when you feel up to the punishment.
 
 ### IDE
 
@@ -99,13 +100,20 @@ testing filesystem interactions and external services have a heavy
 test-development overhead, which hinders rather than helps refactoring efforts;
 your mileage may vary.
 
-Run `make coverage` for a test coverage report.
+Run `make` or `make coverage` for a test coverage report, then open it with
+`open htmlcov/index.html`. There's text output too, in a format that's friendly
+for AI, so you can set Claude to task adding test coverage.
 
 ### CI and CD
 
 There's a couple of workflows in the `.github` dir, one to run the unit tests
 and one to release the project to pypi. The unit tests one runs on every push,
-the release one runs on
+the release one runs when you do `git push --tags`.
+
+To get the release one working, you'll need to add a `PYPI_TOKEN` to the github
+actions environment variables for your repo. Or you can use `make dist` followed
+by `make release` on the command line. This is why I'm not using the OAuth
+thing, I like to do things the same locally and remotely.
 
 ### Documentation
 
@@ -113,9 +121,9 @@ You'll see a `mkdocs` config in the root. This is combined with the `make docs`
 script to make the github pages documentation for the project.
 
 I don't use this anymore as I have my own docs script for my website - it
-pushes a new commit to my github pages website. If I remember to, I'll
+pushes a new commit to my github pages website.
 
-## Some opinionated stuff
+## Some (even more) opinionated stuff
 
 ### Megarepos
 
@@ -141,7 +149,12 @@ I think it's worth keeping most of the project documentation in Markdown as a
 general rule, up to a point anyway. The project wiki is somewhere else, it goes
 out of sync, it's difficult to see what the docs were on a specific release
 tag. Docs in the codebase can be edited alongside new features and have a much
-richer history.
+richer history. That said, docs themselves are best if they are temporary; code
+that reads like plain English and executable documentation in the form of tests
+are superior. Tests are documentation that are proven to be up-to-date every
+time the test suite runs. If you write more than that, then you should probably
+be doing something more productive instead, like writing some code or arguing
+with an AI agent about some code.
 
 ## License choice
 
