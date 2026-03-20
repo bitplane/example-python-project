@@ -21,8 +21,6 @@ dev = [
     "build",
     "twine",
     "ruff",
-    "mkdocs",
-    "mkdocs-material",
     "pydoc-markdown"
 ]
 
