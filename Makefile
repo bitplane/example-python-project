@@ -1,6 +1,6 @@
 # the things that don't have output files or run every time
 .PHONY: help all install test dev coverage clean \
-		pre-commit update-pre-commit docs dist
+		pre-commit update-pre-commit docs dist update-template
 
 
 PROJECT_NAME := example_package
@@ -28,6 +28,9 @@ pre-commit: .git/hooks/pre-commit  ## install pre-commit into the git repo
 
 update-pre-commit: scripts/update-pre-commit.sh  ## autoupdate pre-commit
 	scripts/update-pre-commit.sh
+
+update-template: scripts/update-template.sh  ## pull Makefile, scripts and workflows from the template repo
+	scripts/update-template.sh
 
 dist: scripts/dist.sh ## build the distributable files
 	scripts/dist.sh $(PROJECT_NAME)
